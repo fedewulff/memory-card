@@ -1,6 +1,7 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
-export function Content({ allPokemons, setAll12Pokemons }) {
+export function Content({ allPokemons, setAll12Pokemons, error, loading }) {
   const [score, setScore] = useState(0);
   const [bestScore, setBestScore] = useState(0);
   const [clickedPokemonsArray, setClickedPokemonsArray] = useState([]);
@@ -34,14 +35,15 @@ export function Content({ allPokemons, setAll12Pokemons }) {
     }
     setAll12Pokemons(array);
   }
-
   function multipleFunctions(e) {
     scorePlusOne();
     clickedPokemons(e);
     shuffle(allPokemons);
   }
-
-  if (!allPokemons) {
+  if (error) {
+    return <div className="loading">Couldn't fetch API</div>;
+  }
+  if (loading) {
     return <div className="loading">Loading . . .</div>;
   }
 
@@ -118,3 +120,7 @@ export function Content({ allPokemons, setAll12Pokemons }) {
     </div>
   );
 }
+
+Content.propTypes = {
+  allPokemons: PropTypes.array,
+};
